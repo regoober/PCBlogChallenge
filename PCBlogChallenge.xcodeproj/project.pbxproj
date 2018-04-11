@@ -1,0 +1,532 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7F1ACE68207DEFF800215DA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1ACE67207DEFF800215DA5 /* main.m */; };
+		7F1ACE6B207DEFF800215DA5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1ACE6A207DEFF800215DA5 /* AppDelegate.m */; };
+		7F1ACE6E207DEFF800215DA5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1ACE6D207DEFF800215DA5 /* ViewController.m */; };
+		7F1ACE71207DEFF800215DA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F1ACE6F207DEFF800215DA5 /* Main.storyboard */; };
+		7F1ACE73207DEFF800215DA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F1ACE72207DEFF800215DA5 /* Assets.xcassets */; };
+		7F1ACE76207DEFF800215DA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F1ACE74207DEFF800215DA5 /* LaunchScreen.storyboard */; };
+		7F1ACE81207DEFF800215DA5 /* PCBlogChallengeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1ACE80207DEFF800215DA5 /* PCBlogChallengeTests.m */; };
+		7F1ACE8C207DEFF800215DA5 /* PCBlogChallengeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1ACE8B207DEFF800215DA5 /* PCBlogChallengeUITests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7F1ACE7D207DEFF800215DA5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F1ACE5B207DEFF800215DA5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7F1ACE62207DEFF800215DA5;
+			remoteInfo = PCBlogChallenge;
+		};
+		7F1ACE88207DEFF800215DA5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F1ACE5B207DEFF800215DA5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7F1ACE62207DEFF800215DA5;
+			remoteInfo = PCBlogChallenge;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		7F1ACE63207DEFF800215DA5 /* PCBlogChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PCBlogChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F1ACE67207DEFF800215DA5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7F1ACE69207DEFF800215DA5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		7F1ACE6A207DEFF800215DA5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7F1ACE6C207DEFF800215DA5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		7F1ACE6D207DEFF800215DA5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		7F1ACE70207DEFF800215DA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7F1ACE72207DEFF800215DA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7F1ACE75207DEFF800215DA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7F1ACE77207DEFF800215DA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7F1ACE7C207DEFF800215DA5 /* PCBlogChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PCBlogChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F1ACE80207DEFF800215DA5 /* PCBlogChallengeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCBlogChallengeTests.m; sourceTree = "<group>"; };
+		7F1ACE82207DEFF800215DA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7F1ACE87207DEFF800215DA5 /* PCBlogChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PCBlogChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F1ACE8B207DEFF800215DA5 /* PCBlogChallengeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCBlogChallengeUITests.m; sourceTree = "<group>"; };
+		7F1ACE8D207DEFF800215DA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7F1ACE60207DEFF800215DA5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7F1ACE79207DEFF800215DA5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7F1ACE84207DEFF800215DA5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7F1ACE5A207DEFF800215DA5 = {
+			isa = PBXGroup;
+			children = (
+				7F1ACE65207DEFF800215DA5 /* PCBlogChallenge */,
+				7F1ACE7F207DEFF800215DA5 /* PCBlogChallengeTests */,
+				7F1ACE8A207DEFF800215DA5 /* PCBlogChallengeUITests */,
+				7F1ACE64207DEFF800215DA5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7F1ACE64207DEFF800215DA5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7F1ACE63207DEFF800215DA5 /* PCBlogChallenge.app */,
+				7F1ACE7C207DEFF800215DA5 /* PCBlogChallengeTests.xctest */,
+				7F1ACE87207DEFF800215DA5 /* PCBlogChallengeUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7F1ACE65207DEFF800215DA5 /* PCBlogChallenge */ = {
+			isa = PBXGroup;
+			children = (
+				7F1ACE69207DEFF800215DA5 /* AppDelegate.h */,
+				7F1ACE6A207DEFF800215DA5 /* AppDelegate.m */,
+				7F1ACE6C207DEFF800215DA5 /* ViewController.h */,
+				7F1ACE6D207DEFF800215DA5 /* ViewController.m */,
+				7F1ACE6F207DEFF800215DA5 /* Main.storyboard */,
+				7F1ACE72207DEFF800215DA5 /* Assets.xcassets */,
+				7F1ACE74207DEFF800215DA5 /* LaunchScreen.storyboard */,
+				7F1ACE77207DEFF800215DA5 /* Info.plist */,
+				7F1ACE66207DEFF800215DA5 /* Supporting Files */,
+			);
+			path = PCBlogChallenge;
+			sourceTree = "<group>";
+		};
+		7F1ACE66207DEFF800215DA5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7F1ACE67207DEFF800215DA5 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7F1ACE7F207DEFF800215DA5 /* PCBlogChallengeTests */ = {
+			isa = PBXGroup;
+			children = (
+				7F1ACE80207DEFF800215DA5 /* PCBlogChallengeTests.m */,
+				7F1ACE82207DEFF800215DA5 /* Info.plist */,
+			);
+			path = PCBlogChallengeTests;
+			sourceTree = "<group>";
+		};
+		7F1ACE8A207DEFF800215DA5 /* PCBlogChallengeUITests */ = {
+			isa = PBXGroup;
+			children = (
+				7F1ACE8B207DEFF800215DA5 /* PCBlogChallengeUITests.m */,
+				7F1ACE8D207DEFF800215DA5 /* Info.plist */,
+			);
+			path = PCBlogChallengeUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7F1ACE62207DEFF800215DA5 /* PCBlogChallenge */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7F1ACE90207DEFF800215DA5 /* Build configuration list for PBXNativeTarget "PCBlogChallenge" */;
+			buildPhases = (
+				7F1ACE5F207DEFF800215DA5 /* Sources */,
+				7F1ACE60207DEFF800215DA5 /* Frameworks */,
+				7F1ACE61207DEFF800215DA5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PCBlogChallenge;
+			productName = PCBlogChallenge;
+			productReference = 7F1ACE63207DEFF800215DA5 /* PCBlogChallenge.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7F1ACE7B207DEFF800215DA5 /* PCBlogChallengeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7F1ACE93207DEFF800215DA5 /* Build configuration list for PBXNativeTarget "PCBlogChallengeTests" */;
+			buildPhases = (
+				7F1ACE78207DEFF800215DA5 /* Sources */,
+				7F1ACE79207DEFF800215DA5 /* Frameworks */,
+				7F1ACE7A207DEFF800215DA5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7F1ACE7E207DEFF800215DA5 /* PBXTargetDependency */,
+			);
+			name = PCBlogChallengeTests;
+			productName = PCBlogChallengeTests;
+			productReference = 7F1ACE7C207DEFF800215DA5 /* PCBlogChallengeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		7F1ACE86207DEFF800215DA5 /* PCBlogChallengeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7F1ACE96207DEFF800215DA5 /* Build configuration list for PBXNativeTarget "PCBlogChallengeUITests" */;
+			buildPhases = (
+				7F1ACE83207DEFF800215DA5 /* Sources */,
+				7F1ACE84207DEFF800215DA5 /* Frameworks */,
+				7F1ACE85207DEFF800215DA5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7F1ACE89207DEFF800215DA5 /* PBXTargetDependency */,
+			);
+			name = PCBlogChallengeUITests;
+			productName = PCBlogChallengeUITests;
+			productReference = 7F1ACE87207DEFF800215DA5 /* PCBlogChallengeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7F1ACE5B207DEFF800215DA5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Brian Goo";
+				TargetAttributes = {
+					7F1ACE62207DEFF800215DA5 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					7F1ACE7B207DEFF800215DA5 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 7F1ACE62207DEFF800215DA5;
+					};
+					7F1ACE86207DEFF800215DA5 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 7F1ACE62207DEFF800215DA5;
+					};
+				};
+			};
+			buildConfigurationList = 7F1ACE5E207DEFF800215DA5 /* Build configuration list for PBXProject "PCBlogChallenge" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7F1ACE5A207DEFF800215DA5;
+			productRefGroup = 7F1ACE64207DEFF800215DA5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7F1ACE62207DEFF800215DA5 /* PCBlogChallenge */,
+				7F1ACE7B207DEFF800215DA5 /* PCBlogChallengeTests */,
+				7F1ACE86207DEFF800215DA5 /* PCBlogChallengeUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7F1ACE61207DEFF800215DA5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F1ACE76207DEFF800215DA5 /* LaunchScreen.storyboard in Resources */,
+				7F1ACE73207DEFF800215DA5 /* Assets.xcassets in Resources */,
+				7F1ACE71207DEFF800215DA5 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7F1ACE7A207DEFF800215DA5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7F1ACE85207DEFF800215DA5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7F1ACE5F207DEFF800215DA5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F1ACE6E207DEFF800215DA5 /* ViewController.m in Sources */,
+				7F1ACE6B207DEFF800215DA5 /* AppDelegate.m in Sources */,
+				7F1ACE68207DEFF800215DA5 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7F1ACE78207DEFF800215DA5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F1ACE81207DEFF800215DA5 /* PCBlogChallengeTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7F1ACE83207DEFF800215DA5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F1ACE8C207DEFF800215DA5 /* PCBlogChallengeUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7F1ACE7E207DEFF800215DA5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7F1ACE62207DEFF800215DA5 /* PCBlogChallenge */;
+			targetProxy = 7F1ACE7D207DEFF800215DA5 /* PBXContainerItemProxy */;
+		};
+		7F1ACE89207DEFF800215DA5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7F1ACE62207DEFF800215DA5 /* PCBlogChallenge */;
+			targetProxy = 7F1ACE88207DEFF800215DA5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7F1ACE6F207DEFF800215DA5 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7F1ACE70207DEFF800215DA5 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		7F1ACE74207DEFF800215DA5 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7F1ACE75207DEFF800215DA5 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7F1ACE8E207DEFF800215DA5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7F1ACE8F207DEFF800215DA5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7F1ACE91207DEFF800215DA5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = PCBlogChallenge/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.goo.brian.PCBlogChallenge;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7F1ACE92207DEFF800215DA5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = PCBlogChallenge/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.goo.brian.PCBlogChallenge;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		7F1ACE94207DEFF800215DA5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = PCBlogChallengeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.goo.brian.PCBlogChallengeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PCBlogChallenge.app/PCBlogChallenge";
+			};
+			name = Debug;
+		};
+		7F1ACE95207DEFF800215DA5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = PCBlogChallengeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.goo.brian.PCBlogChallengeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PCBlogChallenge.app/PCBlogChallenge";
+			};
+			name = Release;
+		};
+		7F1ACE97207DEFF800215DA5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = PCBlogChallengeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.goo.brian.PCBlogChallengeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = PCBlogChallenge;
+			};
+			name = Debug;
+		};
+		7F1ACE98207DEFF800215DA5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = PCBlogChallengeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.goo.brian.PCBlogChallengeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = PCBlogChallenge;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7F1ACE5E207DEFF800215DA5 /* Build configuration list for PBXProject "PCBlogChallenge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7F1ACE8E207DEFF800215DA5 /* Debug */,
+				7F1ACE8F207DEFF800215DA5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7F1ACE90207DEFF800215DA5 /* Build configuration list for PBXNativeTarget "PCBlogChallenge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7F1ACE91207DEFF800215DA5 /* Debug */,
+				7F1ACE92207DEFF800215DA5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7F1ACE93207DEFF800215DA5 /* Build configuration list for PBXNativeTarget "PCBlogChallengeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7F1ACE94207DEFF800215DA5 /* Debug */,
+				7F1ACE95207DEFF800215DA5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7F1ACE96207DEFF800215DA5 /* Build configuration list for PBXNativeTarget "PCBlogChallengeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7F1ACE97207DEFF800215DA5 /* Debug */,
+				7F1ACE98207DEFF800215DA5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7F1ACE5B207DEFF800215DA5 /* Project object */;
+}
