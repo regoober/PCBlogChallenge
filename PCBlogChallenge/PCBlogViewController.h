@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PCBlogViewController : UIViewController
+@interface PCBlogViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
+@property (strong, nonatomic) UICollectionView *collectionView;
 
 @end
 
