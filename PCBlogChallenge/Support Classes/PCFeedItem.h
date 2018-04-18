@@ -12,9 +12,9 @@
 @interface PCFeedItem : NSObject
 
 // Title (HTML-encoded) of the blog article.
-@property (nonatomic) NSString *title;
+@property (nonatomic) NSAttributedString *title;
 // Description (HTML-encoded in CDATA) of the blog article.
-@property (nonatomic) NSString *itemDescription;
+@property (nonatomic) NSAttributedString *itemDescription;
 // Image of the blog article.
 @property (nonatomic, strong) NSURL *imageURL;
 // Date and time at which the blog article published.

@@ -13,7 +13,7 @@
 
 @property (nonatomic) PCFeedItem *currentFeedItemObject;
 @property (nonatomic) NSMutableArray *currentParseBatch;
-@property (nonatomic) NSMutableString *currentParsedCharacterData;
+@property (nonatomic) NSMutableAttributedString *currentParsedCharacterData;
 
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
@@ -121,7 +121,8 @@ static NSString * const kLinkElementName = @"link";
 
 #pragma mark - NSXMLParserDelegate
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
+{
     
     // add the element to the state stack
     [self.elementStack addObject:elementName];
@@ -138,7 +139,7 @@ static NSString * const kLinkElementName = @"link";
         // Process contents of these elements in parser:foundCharacters:
         _accumulatingParsedCharacterData = YES;
         // The mutable string needs to be reset to empty.
-        self.currentParsedCharacterData = [NSMutableString stringWithString:@""];
+        self.currentParsedCharacterData = [[NSMutableAttributedString alloc] initWithString:@""];
     }
     else if ([elementName isEqualToString:kMediaURLElementName]) {
         self.currentFeedItemObject.imageURL = attributeDict[@"url"];
@@ -146,7 +147,8 @@ static NSString * const kLinkElementName = @"link";
     }
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
+{
     
         // check if the end element matches what's last on the element stack
     if ([elementName isEqualToString:self.elementStack.lastObject]) {
@@ -178,10 +180,10 @@ static NSString * const kLinkElementName = @"link";
         self.currentFeedItemObject.itemDescription = self.currentParsedCharacterData;
     }
     else if ([elementName isEqualToString:kPublishedDateElementName]) {
-        self.currentFeedItemObject.pubDate = [self.dateFormatter dateFromString:self.currentParsedCharacterData];
+        self.currentFeedItemObject.pubDate = [self.dateFormatter dateFromString:[self.currentParsedCharacterData string]];
     }
     else if ([elementName isEqualToString:kLinkElementName]) {
-        self.currentFeedItemObject.link = [NSURL URLWithString:self.currentParsedCharacterData];
+        self.currentFeedItemObject.link = [NSURL URLWithString:[self.currentParsedCharacterData string]];
     }
     else if ([elementName isEqualToString:kMediaURLElementName]) {
         // Do nothing, this is self-closing tag.
@@ -200,7 +202,26 @@ static NSString * const kLinkElementName = @"link";
             // If the current element is one whose content we care about, append 'string'
             // to the property that holds the content of the current element.
             //
-        [self.currentParsedCharacterData appendString:string];
+        [self.currentParsedCharacterData appendAttributedString:[[NSAttributedString alloc] initWithString:string]];
+    }
+}
+
+-(void)parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock {
+    // Check top element in elementStack to figure out if this is within description element
+    if ([self.elementStack.lastObject isEqualToString:kDescriptionElementName]) {
+        NSMutableString *cdataStr = [[NSMutableString alloc] initWithData:CDATABlock encoding:NSUTF8StringEncoding];
+        // remove <p></p> tags from cdataStr
+        [cdataStr replaceOccurrencesOfString:@"<p>" withString:@""
+                                                options:0
+                                                  range:NSMakeRange(0, cdataStr.length)];
+        [cdataStr replaceOccurrencesOfString:@"</p>" withString:@""
+                                                options:0
+                                                  range:NSMakeRange(0, cdataStr.length)];
+        // html decode cdataStr
+        NSDictionary *options = @{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,
+                                  NSCharacterEncodingDocumentAttribute:@(NSUTF8StringEncoding)};
+        NSAttributedString *decodedString = [[NSAttributedString alloc] initWithString:cdataStr attributes:options];
+        [self.currentParsedCharacterData appendAttributedString:decodedString];
     }
 }
 
