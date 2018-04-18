@@ -44,12 +44,12 @@ static dispatch_once_t token = 0;
 }
 
 // Fetches the blog RSS feed.
--(void) fetchRssFeedWithXMLParserDelegate:(id<NSXMLParserDelegate> *)delegate completionHandler:(void (^)(NSString *, NSError *))completionBlock
+-(void) fetchRssFeed
 {
     NSURL *url = [NSURL URLWithString:kBlogURL];
     NSURLSessionDataTask *downloadFeedTask = [[NSURLSession sharedSession] dataTaskWithURL:url
                                               completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                //
+                // Add xml retrieval to main NSOperation queue
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     // back on the main thread, check for errors, if no errors start the parsing
                     if (error != nil && response == nil) {

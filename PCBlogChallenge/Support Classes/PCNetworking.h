@@ -11,7 +11,8 @@
 // The singleton instance of the CDSRequest.
 +(PCNetworking *)sharedNetworking;
 // Fetches the blog RSS feed.
--(void) fetchRssFeedWithXMLParserDelegate:(id<NSXMLParserDelegate> *)delegate completionHandler:(void (^)(NSString *, NSError *))completionBlock;
+-(void) fetchRssFeed;
+-(void) fetchImageUrl:(NSString *)urlString completionHandler:(void (^)(UIImage *, NSError *))completionBlock;
 
 @end
 
