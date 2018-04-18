@@ -2,17 +2,17 @@
 //  ViewController.m
 //  PCBlogChallenge
 //
-//  Created by Brian Goo on 4/11/18.
+//  Created by Brian Goo on 4/9/18.
 //  Copyright © 2018 Brian Goo. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "PCBlogViewController.h"
 
-@interface ViewController ()
+@interface PCBlogViewController ()
 
 @end
 
-@implementation ViewController
+@implementation PCBlogViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

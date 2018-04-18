@@ -8,13 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		7F1ACE68207DEFF800215DA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1ACE67207DEFF800215DA5 /* main.m */; };
-		7F1ACE6B207DEFF800215DA5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1ACE6A207DEFF800215DA5 /* AppDelegate.m */; };
-		7F1ACE6E207DEFF800215DA5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1ACE6D207DEFF800215DA5 /* ViewController.m */; };
-		7F1ACE71207DEFF800215DA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F1ACE6F207DEFF800215DA5 /* Main.storyboard */; };
 		7F1ACE73207DEFF800215DA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F1ACE72207DEFF800215DA5 /* Assets.xcassets */; };
 		7F1ACE76207DEFF800215DA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F1ACE74207DEFF800215DA5 /* LaunchScreen.storyboard */; };
 		7F1ACE81207DEFF800215DA5 /* PCBlogChallengeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1ACE80207DEFF800215DA5 /* PCBlogChallengeTests.m */; };
 		7F1ACE8C207DEFF800215DA5 /* PCBlogChallengeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1ACE8B207DEFF800215DA5 /* PCBlogChallengeUITests.m */; };
+		7F887E2F207DF340005174E5 /* PCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F887E2B207DF33F005174E5 /* PCAppDelegate.m */; };
+		7F887E30207DF340005174E5 /* PCBlogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F887E2E207DF340005174E5 /* PCBlogViewController.m */; };
+		7F887E42207DF76A005174E5 /* PCParseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F887E3D207DF76A005174E5 /* PCParseOperation.m */; };
+		7F887E43207DF76A005174E5 /* PCFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F887E3F207DF76A005174E5 /* PCFeedItem.m */; };
+		7F887E44207DF76A005174E5 /* PCNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F887E41207DF76A005174E5 /* PCNetworking.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,11 +39,6 @@
 /* Begin PBXFileReference section */
 		7F1ACE63207DEFF800215DA5 /* PCBlogChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PCBlogChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F1ACE67207DEFF800215DA5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7F1ACE69207DEFF800215DA5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		7F1ACE6A207DEFF800215DA5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		7F1ACE6C207DEFF800215DA5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		7F1ACE6D207DEFF800215DA5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		7F1ACE70207DEFF800215DA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7F1ACE72207DEFF800215DA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F1ACE75207DEFF800215DA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7F1ACE77207DEFF800215DA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -51,6 +48,16 @@
 		7F1ACE87207DEFF800215DA5 /* PCBlogChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PCBlogChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F1ACE8B207DEFF800215DA5 /* PCBlogChallengeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCBlogChallengeUITests.m; sourceTree = "<group>"; };
 		7F1ACE8D207DEFF800215DA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7F887E2B207DF33F005174E5 /* PCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCAppDelegate.m; sourceTree = "<group>"; };
+		7F887E2C207DF340005174E5 /* PCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCAppDelegate.h; sourceTree = "<group>"; };
+		7F887E2D207DF340005174E5 /* PCBlogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCBlogViewController.h; sourceTree = "<group>"; };
+		7F887E2E207DF340005174E5 /* PCBlogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCBlogViewController.m; sourceTree = "<group>"; };
+		7F887E3C207DF76A005174E5 /* PCParseOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCParseOperation.h; path = "Support Classes/PCParseOperation.h"; sourceTree = "<group>"; };
+		7F887E3D207DF76A005174E5 /* PCParseOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCParseOperation.m; path = "Support Classes/PCParseOperation.m"; sourceTree = "<group>"; };
+		7F887E3E207DF76A005174E5 /* PCFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCFeedItem.h; path = "Support Classes/PCFeedItem.h"; sourceTree = "<group>"; };
+		7F887E3F207DF76A005174E5 /* PCFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCFeedItem.m; path = "Support Classes/PCFeedItem.m"; sourceTree = "<group>"; };
+		7F887E40207DF76A005174E5 /* PCNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCNetworking.h; path = "Support Classes/PCNetworking.h"; sourceTree = "<group>"; };
+		7F887E41207DF76A005174E5 /* PCNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PCNetworking.m; path = "Support Classes/PCNetworking.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,11 +108,11 @@
 		7F1ACE65207DEFF800215DA5 /* PCBlogChallenge */ = {
 			isa = PBXGroup;
 			children = (
-				7F1ACE69207DEFF800215DA5 /* AppDelegate.h */,
-				7F1ACE6A207DEFF800215DA5 /* AppDelegate.m */,
-				7F1ACE6C207DEFF800215DA5 /* ViewController.h */,
-				7F1ACE6D207DEFF800215DA5 /* ViewController.m */,
-				7F1ACE6F207DEFF800215DA5 /* Main.storyboard */,
+				7F887E2B207DF33F005174E5 /* PCAppDelegate.m */,
+				7F887E2C207DF340005174E5 /* PCAppDelegate.h */,
+				7F887E2D207DF340005174E5 /* PCBlogViewController.h */,
+				7F887E2E207DF340005174E5 /* PCBlogViewController.m */,
+				7F887E45207DF78F005174E5 /* Support Classes */,
 				7F1ACE72207DEFF800215DA5 /* Assets.xcassets */,
 				7F1ACE74207DEFF800215DA5 /* LaunchScreen.storyboard */,
 				7F1ACE77207DEFF800215DA5 /* Info.plist */,
@@ -138,6 +145,19 @@
 				7F1ACE8D207DEFF800215DA5 /* Info.plist */,
 			);
 			path = PCBlogChallengeUITests;
+			sourceTree = "<group>";
+		};
+		7F887E45207DF78F005174E5 /* Support Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7F887E40207DF76A005174E5 /* PCNetworking.h */,
+				7F887E41207DF76A005174E5 /* PCNetworking.m */,
+				7F887E3C207DF76A005174E5 /* PCParseOperation.h */,
+				7F887E3D207DF76A005174E5 /* PCParseOperation.m */,
+				7F887E3E207DF76A005174E5 /* PCFeedItem.h */,
+				7F887E3F207DF76A005174E5 /* PCFeedItem.m */,
+			);
+			name = "Support Classes";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,6 +222,7 @@
 		7F1ACE5B207DEFF800215DA5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = PC;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Brian Goo";
 				TargetAttributes = {
@@ -248,7 +269,6 @@
 			files = (
 				7F1ACE76207DEFF800215DA5 /* LaunchScreen.storyboard in Resources */,
 				7F1ACE73207DEFF800215DA5 /* Assets.xcassets in Resources */,
-				7F1ACE71207DEFF800215DA5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,9 +293,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7F1ACE6E207DEFF800215DA5 /* ViewController.m in Sources */,
-				7F1ACE6B207DEFF800215DA5 /* AppDelegate.m in Sources */,
+				7F887E44207DF76A005174E5 /* PCNetworking.m in Sources */,
+				7F887E43207DF76A005174E5 /* PCFeedItem.m in Sources */,
+				7F887E30207DF340005174E5 /* PCBlogViewController.m in Sources */,
 				7F1ACE68207DEFF800215DA5 /* main.m in Sources */,
+				7F887E42207DF76A005174E5 /* PCParseOperation.m in Sources */,
+				7F887E2F207DF340005174E5 /* PCAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,14 +334,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7F1ACE6F207DEFF800215DA5 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7F1ACE70207DEFF800215DA5 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		7F1ACE74207DEFF800215DA5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -509,6 +524,7 @@
 				7F1ACE92207DEFF800215DA5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7F1ACE93207DEFF800215DA5 /* Build configuration list for PBXNativeTarget "PCBlogChallengeTests" */ = {
 			isa = XCConfigurationList;
@@ -517,6 +533,7 @@
 				7F1ACE95207DEFF800215DA5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7F1ACE96207DEFF800215DA5 /* Build configuration list for PBXNativeTarget "PCBlogChallengeUITests" */ = {
 			isa = XCConfigurationList;
@@ -525,6 +542,7 @@
 				7F1ACE98207DEFF800215DA5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

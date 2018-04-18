@@ -2,21 +2,32 @@
 //  AppDelegate.m
 //  PCBlogChallenge
 //
-//  Created by Brian Goo on 4/11/18.
+//  Created by Brian Goo on 4/9/18.
 //  Copyright © 2018 Brian Goo. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "PCAppDelegate.h"
+#import "PCBlogViewController.h"
 
-@interface AppDelegate ()
+@interface PCAppDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation PCAppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    // Get window and initalize its frame and background color.
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    
+    // Set app's root controller to new UINavigationController with a new PCBlogViewController as its root controller.
+    PCBlogViewController *blogController = [PCBlogViewController new];
+    UINavigationController *rootNavController = [[UINavigationController alloc] initWithRootViewController:blogController];
+    self.window.rootViewController = rootNavController;
+    
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
