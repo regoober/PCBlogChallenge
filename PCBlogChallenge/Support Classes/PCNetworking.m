@@ -101,6 +101,7 @@ static dispatch_once_t token = 0;
     [downloadFeedTask resume];
 }
 
+// Fetches the image at the urlString provided, as given by a blog item's media:content element.
 -(void) fetchImageUrl:(NSString *)urlString completionHandler:(void (^)(UIImage *, NSError *))completionBlock
 {
     NSURL *url = [NSURL URLWithString:urlString];

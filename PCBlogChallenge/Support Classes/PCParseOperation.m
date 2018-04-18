@@ -141,7 +141,7 @@ static NSString * const kLinkElementName = @"link";
         // The mutable string needs to be reset to empty.
         self.currentParsedCharacterData = [[NSMutableAttributedString alloc] initWithString:@""];
     }
-    else if ([elementName isEqualToString:kMediaURLElementName]) {
+    else if ([elementName isEqualToString:kMediaURLElementName]) {      // <media:content url=".." />
         self.currentFeedItemObject.imageURL = attributeDict[@"url"];
         _accumulatingParsedCharacterData = NO;
     }
