@@ -10,6 +10,12 @@
 
 // The singleton instance of the CDSRequest.
 +(PCNetworking *)sharedNetworking;
+
+// The blog items array to be retrieved by the UI.
+@property (readonly) NSMutableArray *blogEntries;
+// The error to be retrieved by the UI.
+@property (readonly) NSError *error;
+
 // Fetches the blog RSS feed.
 -(void) fetchRssFeed;
 -(void) fetchImageUrl:(NSString *)urlString completionHandler:(void (^)(UIImage *, NSError *))completionBlock;

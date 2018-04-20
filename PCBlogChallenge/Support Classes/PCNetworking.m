@@ -13,7 +13,7 @@
 #import "PCParseOperation.h"
 
 // The PC blog URL
-static NSString * const kBlogURL = @"​https://www.personalcapital.com/blog/feed/?cat=3,891,890,68,284";
+static NSString * const kBlogURL = @"https://www.personalcapital.com/blog/feed/?cat=3,891,890,68,284";
 
 // Objects for creating singleton of this class
 static PCNetworking *_sharedNetworking = nil;
@@ -24,12 +24,50 @@ static dispatch_once_t token = 0;
 @property (nonatomic, strong) NSMutableArray *blogEntries;
 @property (nonatomic, strong) NSError *error;
 
+@property (assign) id addBlogItemsObserver;
+@property (assign) id blogErrorObserver;
+
 // queue that manages our NSOperation for parsing blog data
 @property (nonatomic, strong) NSOperationQueue *parseQueue;
 
 @end
 
 @implementation PCNetworking
+
+-(instancetype)init {
+    self = [super init];
+    if (self != nil) {
+        _blogEntries = [NSMutableArray array];
+        
+        // Our NSNotification callback from the running NSOperation to add the blogItems
+        _addBlogItemsObserver = [[NSNotificationCenter defaultCenter] addObserverForName:PCParseOperation.AddBlogItemsNotificationName
+                                                                                  object:nil
+                                                                                   queue:nil
+                                                                              usingBlock:^(NSNotification *notification) {
+            // The NSOperation "ParseOperation" calls this observer with batches of parsed objects, use KVO to notify our client.
+            NSArray *incomingItems = [notification.userInfo valueForKey:PCParseOperation.BlogItemsResultsKey];
+            
+            [self willChangeValueForKey:@"blogItems"];
+            [self.blogEntries addObjectsFromArray:incomingItems];
+            [self didChangeValueForKey:@"blogItems"];
+        }];
+        
+        // Our NSNotification callback from the running NSOperation when a parsing error has occurred
+        _blogErrorObserver = [[NSNotificationCenter defaultCenter] addObserverForName:PCParseOperation.BlogFeedErrorNotificationName
+                                                                               object:nil
+                                                                                queue:nil
+                                                                           usingBlock:^(NSNotification *notification) {
+            // The NSOperation "ParseOperation" calls this observer with an error, use KVO to notify our client
+            [self willChangeValueForKey:@"error"];
+            self.error = [notification.userInfo valueForKey:PCParseOperation.BlogFeedMessageErrorKey];
+            [self didChangeValueForKey:@"error"];
+        }];
+    
+        _parseQueue = [NSOperationQueue new];
+    }
+    
+    return self;
+}
 
 // The singleton instance of PCNetworking.
 +(PCNetworking *)sharedNetworking
@@ -72,7 +110,7 @@ static dispatch_once_t token = 0;
                         
                         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
                         // Check for response code in 200s with MIME type as xml
-                        if ((httpResponse.statusCode/100 == 2) && [response.MIMEType isEqual:@"application/xml"]) {
+                        if ((httpResponse.statusCode/100 == 2) && [response.MIMEType isEqual:@"application/rss+xml"]) {
                             
                             /* Update the UI and start parsing the data,
                              Spin up an NSOperation to parse the blog data to keep UI unblocked
@@ -118,5 +156,12 @@ static dispatch_once_t token = 0;
     }];
     // Start downloading image for article
     [downloadImageTask resume];
+}
+
+
+// Remove NSNotificationCenter observers upon deallocation.
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self.addBlogItemsObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.blogErrorObserver];
 }
 @end

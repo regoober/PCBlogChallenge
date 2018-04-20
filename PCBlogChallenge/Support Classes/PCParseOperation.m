@@ -210,14 +210,7 @@ static NSString * const kLinkElementName = @"link";
     // Check top element in elementStack to figure out if this is within description element
     if ([self.elementStack.lastObject isEqualToString:kDescriptionElementName]) {
         NSMutableString *cdataStr = [[NSMutableString alloc] initWithData:CDATABlock encoding:NSUTF8StringEncoding];
-        // remove <p></p> tags from cdataStr
-        [cdataStr replaceOccurrencesOfString:@"<p>" withString:@""
-                                                options:0
-                                                  range:NSMakeRange(0, cdataStr.length)];
-        [cdataStr replaceOccurrencesOfString:@"</p>" withString:@""
-                                                options:0
-                                                  range:NSMakeRange(0, cdataStr.length)];
-        // html decode cdataStr
+        // html-decode cdataStr (iOS 7+)
         NSDictionary *options = @{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,
                                   NSCharacterEncodingDocumentAttribute:@(NSUTF8StringEncoding)};
         NSAttributedString *decodedString = [[NSAttributedString alloc] initWithString:cdataStr attributes:options];

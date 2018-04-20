@@ -25,7 +25,7 @@ static NSString * const kBlogItemCellId = @"BlogItemCell";
     
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Initialize the UICollectionView.
-    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
@@ -38,12 +38,18 @@ static NSString * const kBlogItemCellId = @"BlogItemCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-        // Add "refresh" button to top right corner of UINav bar.
+    // listen for incoming blogItems from our data source using KVO
+    [[PCNetworking sharedNetworking] addObserver:self forKeyPath:@"blogItems" options:0 context:nil];
+
+    // listen for errors reported by our data source using KVO, so we can report it in our own way
+    [[PCNetworking sharedNetworking] addObserver:self forKeyPath:@"error" options:NSKeyValueObservingOptionNew context:nil];
+
+    // Add "refresh" button to top right corner of UINav bar.
     UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                                    target:self
                                                                                    action:@selector(refresh)];
     self.navigationItem.rightBarButtonItem = refreshButton;
-        // Set title of navigation bar
+    // Set title of navigation bar
     self.navigationItem.title = @"Research & Insights";
     
     // Add UIActivityIndicatorView to dead center of the app to use when refreshing the entire feed.
@@ -52,18 +58,27 @@ static NSString * const kBlogItemCellId = @"BlogItemCell";
                                                                                    kActivityIndicatorSize, kActivityIndicatorSize)];
     _feedLoadIndicator.hidesWhenStopped = YES;
     [_collectionView addSubview:_feedLoadIndicator];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
-    // Start by calling refresh: to load the feed
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    // Start by calling refresh to load the feed
     [self refresh];
 }
 
 - (void)refresh {
     [[PCNetworking sharedNetworking] fetchRssFeed];
     
-    // Set UI to have loading progress bar in center of screen, reduce opacity down to 0.3
-    [_feedLoadIndicator startAnimating];
+    // Fade collection view to alpha 0.3, then start animating load indicator afterwards.
     [UIView animateWithDuration:0.75f animations: ^{
         [self.collectionView setAlpha:0.3f];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            // Set UI to have loading progress bar in center of screen, reduce opacity down to 0.3
+            [self.feedLoadIndicator startAnimating];
+        }
     }];
 }
 
@@ -74,26 +89,7 @@ static NSString * const kBlogItemCellId = @"BlogItemCell";
 
 #pragma Mark - UICollectionViewDelegate
 
-//- (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-//    static NSString *reuseIdentifier = @"BlogItemCell";
-//    
-//    return
-//}
-//
-//- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    switch (section) {
-//        case 0:
-//            return 1;
-//            break;
-//            
-//        default:
-//            return 0; // set items to 0 while the feed loads
-//            break;
-//    }
-//}
-
-
-    // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBlogItemCellId forIndexPath:indexPath];

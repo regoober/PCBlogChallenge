@@ -14,6 +14,8 @@
 
 -(instancetype)initWithData:(NSData *)blogData NS_DESIGNATED_INITIALIZER;
 
++(NSString *)AddBlogItemsNotificationName;      // NSNotification name for adding blog items event
++(NSString *)BlogItemsResultsKey;               // NSNotification name for returned blog items event
 +(NSString *)BlogFeedErrorNotificationName;     // NSNotification name for reporting errors
 +(NSString *)BlogFeedMessageErrorKey;           // NSNotification userInfo key for obtaining the error message
 
