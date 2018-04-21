@@ -20,11 +20,7 @@
 @property (assign) BOOL accumulatingParsedCharacterData;
 @property (assign) BOOL didAbortParsing;
 
-@property (assign) BOOL seekTitle;
-@property (assign) BOOL seekDescription;
-@property (assign) BOOL seekPubDate;
-@property (assign) BOOL seekMediaURL;
-@property (assign) BOOL seekLink;
+@property (assign) BOOL seekItem;
 
 // a stack queue containing elements as they are being parsed, used to detect malformed XML.
 @property (nonatomic, strong) NSMutableArray *elementStack;
@@ -72,6 +68,11 @@
         self.dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
         // Match the date format of the RSS feed (RFC 233): eg. Thu, 29 Mar 2018 15:32:46 +0000
         self.dateFormatter.dateFormat = @"EEE, dd MMM yyyy HH:mm:ss Z";
+        
+        _currentParseBatch = [[NSMutableArray alloc] init];
+        _currentParsedCharacterData = [[NSMutableAttributedString alloc] init];
+        
+        _elementStack = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -110,6 +111,8 @@
 static NSUInteger const kSizeOfBlogBatch = 10;
 
 // Reduce potential parsing errors by using string constants declared in a single place.
+static NSString * const kChannelElementName = @"channel";
+
 static NSString * const kEntryElementName = @"item";
 static NSString * const kTitleElementName = @"title";
 
@@ -123,18 +126,18 @@ static NSString * const kLinkElementName = @"link";
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
 {
-    
     // add the element to the state stack
     [self.elementStack addObject:elementName];
     
     if ([elementName isEqualToString:kEntryElementName]) { // <item>..
         PCFeedItem *feedItem = [[PCFeedItem alloc] init];
         self.currentFeedItemObject = feedItem;
+        _seekItem = YES;
     }
-    else if ([elementName isEqualToString:kTitleElementName] ||         // <title>..
+    else if (_seekItem == YES && ([elementName isEqualToString:kTitleElementName] ||         // <title>..
              [elementName isEqualToString:kDescriptionElementName] ||   // <description>..
              [elementName isEqualToString:kLinkElementName] ||          // <link>..
-             [elementName isEqualToString:kPublishedDateElementName])   // <pubDate>..
+             [elementName isEqualToString:kPublishedDateElementName]))   // <pubDate>..
     {
         // Process contents of these elements in parser:foundCharacters:
         _accumulatingParsedCharacterData = YES;
@@ -150,7 +153,7 @@ static NSString * const kLinkElementName = @"link";
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
 {
     
-        // check if the end element matches what's last on the element stack
+    // check if the end element matches what's last on the element stack
     if ([elementName isEqualToString:self.elementStack.lastObject]) {
         // they match, remove it
         [self.elementStack removeLastObject];
@@ -166,6 +169,7 @@ static NSString * const kLinkElementName = @"link";
         
         // end feed item entry, add to the array
         [self.currentParseBatch addObject:self.currentFeedItemObject];
+        _seekItem = NO;
         
         if (self.currentParseBatch.count >= kSizeOfBlogBatch) {
             [self performSelectorOnMainThread:@selector(addBlogItemsToList:) withObject:self.currentParseBatch waitUntilDone:YES];
