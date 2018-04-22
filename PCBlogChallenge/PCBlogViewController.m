@@ -12,7 +12,6 @@
 #import "PCCollectionViewCell.h"
 #import "PCCollectionViewFlowLayout.h"
 #import "PCFeedItem.h"
-#import "PCBlogWebViewController.h"
 
 @interface PCBlogViewController ()
 
@@ -145,9 +144,11 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
     PCFeedItem *feedItem = [PCNetworking sharedNetworking].blogEntries[index];
     NSURLComponents *mobileURL = [[NSURLComponents alloc] initWithURL:feedItem.link resolvingAgainstBaseURL:NO];
     mobileURL.query = @"displayMobileNavigation=0"; // append mobile navigation queryString
-    PCBlogWebViewController *blogWebViewController = [PCBlogWebViewController new];
-    blogWebViewController.linkURL = [mobileURL URL];
-    [self.navigationController pushViewController:blogWebViewController animated:true];
+//    PCBlogWebViewController *blogWebViewController = [PCBlogWebViewController new];
+//    blogWebViewController.linkURL = [mobileURL URL];
+//    [self.navigationController pushViewController:blogWebViewController animated:true];
+    SFSafariViewController *webVC = [[SFSafariViewController alloc] initWithURL:[mobileURL URL] entersReaderIfAvailable:NO];
+    [self presentViewController:webVC animated:YES completion:nil];
 }
 
 #pragma Mark - UICollectionViewDataSource
