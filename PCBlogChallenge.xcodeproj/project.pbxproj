@@ -47,8 +47,8 @@
 		7F07CEDB208AF4140033114E /* PCCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCCollectionViewCell.m; sourceTree = "<group>"; };
 		7F07CEDD208B017F0033114E /* PCCollectionHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCCollectionHeaderView.h; sourceTree = "<group>"; };
 		7F07CEDE208B017F0033114E /* PCCollectionHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCCollectionHeaderView.m; sourceTree = "<group>"; };
-		7F07CEE0208C525D0033114E /* PCLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PCLabel.h; path = "Support Classes/PCLabel.h"; sourceTree = "<group>"; };
-		7F07CEE1208C525D0033114E /* PCLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PCLabel.m; path = "Support Classes/PCLabel.m"; sourceTree = "<group>"; };
+		7F07CEE0208C525D0033114E /* PCLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCLabel.h; sourceTree = "<group>"; };
+		7F07CEE1208C525D0033114E /* PCLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCLabel.m; sourceTree = "<group>"; };
 		7F1ACE63207DEFF800215DA5 /* PCBlogChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PCBlogChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F1ACE67207DEFF800215DA5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7F1ACE72207DEFF800215DA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -97,6 +97,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7F07CEE3208C8F600033114E /* UICollectionView Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7F07CEDD208B017F0033114E /* PCCollectionHeaderView.h */,
+				7F07CEDE208B017F0033114E /* PCCollectionHeaderView.m */,
+				7F07CEDA208AF4140033114E /* PCCollectionViewCell.h */,
+				7F07CEDB208AF4140033114E /* PCCollectionViewCell.m */,
+				7F07CED7208AE1170033114E /* PCCollectionViewFlowLayout.h */,
+				7F07CED8208AE1170033114E /* PCCollectionViewFlowLayout.m */,
+				7F07CEE0208C525D0033114E /* PCLabel.h */,
+				7F07CEE1208C525D0033114E /* PCLabel.m */,
+			);
+			name = "UICollectionView Classes";
+			sourceTree = "<group>";
+		};
 		7F1ACE5A207DEFF800215DA5 = {
 			isa = PBXGroup;
 			children = (
@@ -124,12 +139,7 @@
 				7F887E2C207DF340005174E5 /* PCAppDelegate.h */,
 				7F887E2D207DF340005174E5 /* PCBlogViewController.h */,
 				7F887E2E207DF340005174E5 /* PCBlogViewController.m */,
-				7F07CEDD208B017F0033114E /* PCCollectionHeaderView.h */,
-				7F07CEDE208B017F0033114E /* PCCollectionHeaderView.m */,
-				7F07CEDA208AF4140033114E /* PCCollectionViewCell.h */,
-				7F07CEDB208AF4140033114E /* PCCollectionViewCell.m */,
-				7F07CED7208AE1170033114E /* PCCollectionViewFlowLayout.h */,
-				7F07CED8208AE1170033114E /* PCCollectionViewFlowLayout.m */,
+				7F07CEE3208C8F600033114E /* UICollectionView Classes */,
 				7F887E45207DF78F005174E5 /* Support Classes */,
 				7F1ACE72207DEFF800215DA5 /* Assets.xcassets */,
 				7F1ACE74207DEFF800215DA5 /* LaunchScreen.storyboard */,
@@ -174,8 +184,6 @@
 				7F887E3D207DF76A005174E5 /* PCParseOperation.m */,
 				7F887E3E207DF76A005174E5 /* PCFeedItem.h */,
 				7F887E3F207DF76A005174E5 /* PCFeedItem.m */,
-				7F07CEE0208C525D0033114E /* PCLabel.h */,
-				7F07CEE1208C525D0033114E /* PCLabel.m */,
 			);
 			name = "Support Classes";
 			sourceTree = "<group>";
