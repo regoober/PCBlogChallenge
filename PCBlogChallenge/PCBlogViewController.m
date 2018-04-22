@@ -126,7 +126,11 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
 
 #pragma Mark - UICollectionViewDelegate
 
-
+-(void)handleHeaderSelect:(UITapGestureRecognizer *)sender
+{
+    NSIndexPath *headerIndexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+    [self collectionView:_collectionView didSelectItemAtIndexPath:headerIndexPath];
+}
 
 // Event to fire when a collection view item is tapped
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(nonnull NSIndexPath *)indexPath
@@ -184,6 +188,11 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
                     [datedDescAttStr appendAttributedString:[[NSAttributedString alloc] initWithString:@" — "]];
                     [datedDescAttStr appendAttributedString:item.itemDescription];
                     headerView.itemDescription.attributedText = datedDescAttStr;
+                    
+                    // Add touch event if header is tapped.
+                    UITapGestureRecognizer *headerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleHeaderSelect:)];
+                    headerView.userInteractionEnabled = YES;
+                    [headerView addGestureRecognizer:headerTapRecognizer];
                 }
                 return headerView;
                 break;
