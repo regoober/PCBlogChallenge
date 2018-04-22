@@ -12,6 +12,7 @@
 #import "PCCollectionViewCell.h"
 #import "PCCollectionViewFlowLayout.h"
 #import "PCFeedItem.h"
+#import "PCBlogWebViewController.h"
 
 @interface PCBlogViewController ()
 
@@ -127,6 +128,27 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
 #pragma Mark - UICollectionViewDelegate
 
 
+
+// Event to fire when a collection view item is tapped
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    NSInteger index;
+    switch (indexPath.section) {
+        case 0:
+            index = 0;
+            break;
+            
+        default:
+            index = indexPath.item + 1; // off by one
+            break;
+    }
+    PCFeedItem *feedItem = [PCNetworking sharedNetworking].blogEntries[index];
+    NSURLComponents *mobileURL = [[NSURLComponents alloc] initWithURL:feedItem.link resolvingAgainstBaseURL:NO];
+    mobileURL.query = @"displayMobileNavigation=0"; // append mobile navigation queryString
+    PCBlogWebViewController *blogWebViewController = [PCBlogWebViewController new];
+    blogWebViewController.linkURL = [mobileURL URL];
+    [self.navigationController pushViewController:blogWebViewController animated:true];
+}
 
 #pragma Mark - UICollectionViewDataSource
 
@@ -266,7 +288,7 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
             
         default:
             return self.sectionInsets.left;
-            break;            
+            break;
     }
 }
 

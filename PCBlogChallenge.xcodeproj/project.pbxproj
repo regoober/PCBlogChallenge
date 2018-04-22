@@ -11,6 +11,7 @@
 		7F07CEDC208AF4140033114E /* PCCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F07CEDB208AF4140033114E /* PCCollectionViewCell.m */; };
 		7F07CEDF208B01800033114E /* PCCollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F07CEDE208B017F0033114E /* PCCollectionHeaderView.m */; };
 		7F07CEE2208C525E0033114E /* PCLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F07CEE1208C525D0033114E /* PCLabel.m */; };
+		7F07CEE6208C946E0033114E /* PCBlogWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F07CEE5208C946E0033114E /* PCBlogWebViewController.m */; };
 		7F1ACE68207DEFF800215DA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F1ACE67207DEFF800215DA5 /* main.m */; };
 		7F1ACE73207DEFF800215DA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F1ACE72207DEFF800215DA5 /* Assets.xcassets */; };
 		7F1ACE76207DEFF800215DA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F1ACE74207DEFF800215DA5 /* LaunchScreen.storyboard */; };
@@ -49,6 +50,8 @@
 		7F07CEDE208B017F0033114E /* PCCollectionHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCCollectionHeaderView.m; sourceTree = "<group>"; };
 		7F07CEE0208C525D0033114E /* PCLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCLabel.h; sourceTree = "<group>"; };
 		7F07CEE1208C525D0033114E /* PCLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCLabel.m; sourceTree = "<group>"; };
+		7F07CEE4208C946E0033114E /* PCBlogWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PCBlogWebViewController.h; sourceTree = "<group>"; };
+		7F07CEE5208C946E0033114E /* PCBlogWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PCBlogWebViewController.m; sourceTree = "<group>"; };
 		7F1ACE63207DEFF800215DA5 /* PCBlogChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PCBlogChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F1ACE67207DEFF800215DA5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7F1ACE72207DEFF800215DA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -139,6 +142,8 @@
 				7F887E2C207DF340005174E5 /* PCAppDelegate.h */,
 				7F887E2D207DF340005174E5 /* PCBlogViewController.h */,
 				7F887E2E207DF340005174E5 /* PCBlogViewController.m */,
+				7F07CEE4208C946E0033114E /* PCBlogWebViewController.h */,
+				7F07CEE5208C946E0033114E /* PCBlogWebViewController.m */,
 				7F07CEE3208C8F600033114E /* UICollectionView Classes */,
 				7F887E45207DF78F005174E5 /* Support Classes */,
 				7F1ACE72207DEFF800215DA5 /* Assets.xcassets */,
@@ -325,6 +330,7 @@
 				7F887E43207DF76A005174E5 /* PCFeedItem.m in Sources */,
 				7F887E30207DF340005174E5 /* PCBlogViewController.m in Sources */,
 				7F07CEDC208AF4140033114E /* PCCollectionViewCell.m in Sources */,
+				7F07CEE6208C946E0033114E /* PCBlogWebViewController.m in Sources */,
 				7F07CED9208AE1170033114E /* PCCollectionViewFlowLayout.m in Sources */,
 				7F1ACE68207DEFF800215DA5 /* main.m in Sources */,
 				7F07CEDF208B01800033114E /* PCCollectionHeaderView.m in Sources */,
