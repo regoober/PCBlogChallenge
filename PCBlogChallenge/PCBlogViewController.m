@@ -8,6 +8,10 @@
 
 #import "PCBlogViewController.h"
 #import "PCNetworking.h"
+#import "PCCollectionHeaderView.h"
+#import "PCCollectionViewCell.h"
+#import "PCCollectionViewFlowLayout.h"
+#import "PCFeedItem.h"
 
 @interface PCBlogViewController ()
 
@@ -18,7 +22,7 @@
 
 // Section insets and number of items per row.
 @property (nonatomic) UIEdgeInsets sectionInsets;
-@property (nonatomic) CGFloat numberPerRow;
+@property (nonatomic) NSInteger numberPerRow;
 
 @end
 
@@ -26,36 +30,48 @@
 
 static CGFloat const kActivityIndicatorSize = 100.0;
 static NSString * const kBlogItemCellId = @"BlogItemCell";
+static NSString * const kTopBlogItemHeaderId = @"TopBlogItemHeader";
+static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
 
 - (void)loadView {
     [super loadView];
     
-    // Initialize sectionInsets and numberPerRow (dependent on device)
+    // Initialize sectionInsets
+    self.sectionInsets = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
+    // Initialize numberPerRow (dependent on device)
     switch ([UIDevice currentDevice].userInterfaceIdiom) {
         case UIUserInterfaceIdiomPhone:
-            self.sectionInsets = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
-            self.numberPerRow = 2.0f;
+            self.numberPerRow = 2;
             break;
         default:
-            self.sectionInsets = UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0);
-            self.numberPerRow = 3.0f;
+            self.numberPerRow = 3;
             break;
     }
     
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Initialize the UICollectionView.
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    PCCollectionViewFlowLayout *layout = [[PCCollectionViewFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
-    
-    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kBlogItemCellId];
+    // Register header to collection view
+    [_collectionView registerClass:[PCCollectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kTopBlogItemHeaderId];
+    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kPrevArticlesHeaderId];
+    // Register reusable cell to collection view
+    [_collectionView registerClass:[PCCollectionViewCell class] forCellWithReuseIdentifier:kBlogItemCellId];
     [_collectionView setBackgroundColor:[UIColor whiteColor]];
+    _collectionView.prefetchingEnabled = NO;
     [self.view addSubview:_collectionView];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    // Set autolayout constraints
+    [self.collectionView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor].active = YES;
+    [self.collectionView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
+    [self.collectionView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
     
     // listen for incoming blogItems from our data source using KVO
     [[PCNetworking sharedNetworking] addObserver:self forKeyPath:@"blogItems" options:0 context:nil];
@@ -77,6 +93,7 @@ static NSString * const kBlogItemCellId = @"BlogItemCell";
     _feedLoadIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(centerPoint.x - (kActivityIndicatorSize / 2.0), centerPoint.y - (kActivityIndicatorSize / 2.0),
                                                                                    kActivityIndicatorSize, kActivityIndicatorSize)];
     _feedLoadIndicator.hidesWhenStopped = YES;
+    _feedLoadIndicator.color = [UIColor blackColor];
     [_collectionView addSubview:_feedLoadIndicator];
 }
 
@@ -92,7 +109,7 @@ static NSString * const kBlogItemCellId = @"BlogItemCell";
     [[PCNetworking sharedNetworking] fetchRssFeed];
     
     // Fade collection view to alpha 0.3, then start animating load indicator afterwards.
-    [UIView animateWithDuration:0.75f animations: ^{
+    [UIView animateWithDuration:1.75f animations: ^{
         [self.collectionView setAlpha:0.3f];
     } completion:^(BOOL finished) {
         if (finished) {
@@ -109,26 +126,116 @@ static NSString * const kBlogItemCellId = @"BlogItemCell";
 
 #pragma Mark - UICollectionViewDelegate
 
-// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+
+
+#pragma Mark - UICollectionViewDataSource
+
+// The header that is returned must be retrieved from a call to
+// -dequeueReusableSupplementaryViewOfKind:withReuseIdentifier:atIndexPath:
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBlogItemCellId forIndexPath:indexPath];
+    PCCollectionHeaderView *headerView;
+    UICollectionReusableView *secondHeaderView;
+    if (kind == UICollectionElementKindSectionHeader) {
+        switch (indexPath.section) {
+            case 0:
+                headerView = ((PCCollectionHeaderView *)[self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kTopBlogItemHeaderId forIndexPath:indexPath]);
+                // Check to see if blogEntries has even been loaded.
+                if ([PCNetworking sharedNetworking].blogEntries.count > 0) {
+                    PCFeedItem *item = [PCNetworking sharedNetworking].blogEntries[indexPath.item];
+                    [[PCNetworking sharedNetworking] fetchImageUrl:item.imageURL completionHandler:^(UIImage *img, NSError *err) {
+                        // Once image has been loaded, display it in header in the main event queue.
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            headerView.itemImage.image = img;
+                            [headerView.itemImage setNeedsDisplay];
+                        });
+                    }];
+                    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithAttributedString:item.title];
+                    [title addAttribute:NSStrokeWidthAttributeName value:@(-2.0) range:NSMakeRange(0, item.title.length)];
+                    headerView.itemTitleLabel.attributedText = title;
+                    
+                    // Prepend the published date in long format before the description, separated by an em-dash
+                    NSDateFormatter *normalDate = [[NSDateFormatter alloc] init];
+                    [normalDate setDateFormat:@"MMMM d, yyyy"];
+                    NSMutableAttributedString *datedDescAttStr = [[NSMutableAttributedString alloc] initWithString:[normalDate stringFromDate:item.pubDate]];
+                    [datedDescAttStr appendAttributedString:[[NSAttributedString alloc] initWithString:@" — "]];
+                    [datedDescAttStr appendAttributedString:item.itemDescription];
+                    headerView.itemDescription.attributedText = datedDescAttStr;
+                }
+                return headerView;
+                break;
+            default:
+                secondHeaderView = [self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kPrevArticlesHeaderId forIndexPath:indexPath];
+                PCLabel *secondHeaderLabel = [[PCLabel alloc] initWithFrame:CGRectMake(0, 0, secondHeaderView.bounds.size.width, secondHeaderView.bounds.size.height)];
+                secondHeaderLabel.textInsets = UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0);
+                secondHeaderLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+                secondHeaderLabel.adjustsFontForContentSizeCategory = YES;
+                secondHeaderLabel.text = @"Previous Articles";
+                [secondHeaderView addSubview:secondHeaderLabel];
+                
+                return secondHeaderView;
+                break;
+        }
+    }
+    return headerView;
+}
+
+// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+- (PCCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    PCCollectionViewCell *cell = (PCCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kBlogItemCellId forIndexPath:indexPath];
     
-    cell.backgroundColor=[UIColor greenColor];
+        // Grab the appropriate blog feed item from blogEntries
+    PCFeedItem *item = [PCNetworking sharedNetworking].blogEntries[indexPath.item+1]; // off by one, since first entry goes to header
+    
+        // Fetch the image for item, and populate the itemImage once it's complete, otherwise put an image of X
+    [[PCNetworking sharedNetworking] fetchImageUrl:item.imageURL completionHandler:^(UIImage *img, NSError *err) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            cell.itemImage.image = img;
+            [cell.itemImage setNeedsDisplay];
+        });
+    }];
+    cell.itemTitleLabel.attributedText = item.title;
+    
     return cell;
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [PCNetworking sharedNetworking].blogEntries.count;
+    switch (section) {
+        case 0:
+            return 0;
+            break;
+            
+        default:
+            // Off by one, because first blog entry goes to header
+            return [PCNetworking sharedNetworking].blogEntries.count - 1;
+            break;
+    }
 }
 
 # pragma Mark - UICollectionViewDelegateFlowLayout
 
+// Set default size of the header (width: full screen, height: 350)
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+        case 0:
+            return CGSizeMake(self.view.frame.size.width, self.view.frame.size.width / 1.35);
+            break;
+            
+        default:
+            return CGSizeMake(self.view.frame.size.width, 10.0);
+            break;
+    }
+    
+}
+
+// Set default size of the remaining collection cells according ot sectionInsets and numberPerRow.
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout*)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -140,17 +247,40 @@ static NSString * const kBlogItemCellId = @"BlogItemCell";
     // Calculate width per item based on available width
     CGFloat widthPerItem = availableWidth / self.numberPerRow;
     
-    return CGSizeMake(widthPerItem, widthPerItem / 1.25);
+    return CGSizeMake(widthPerItem, widthPerItem / 1.5);
 }
 
+// Set insets for the collection view section.
 -(UIEdgeInsets) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
     return self.sectionInsets;
 }
 
+// Set the minimum spacing for the collection view section.
 -(CGFloat) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return self.sectionInsets.left;
+    switch (section) {
+        case 0:
+            return 0;
+            break;
+            
+        default:
+            return self.sectionInsets.left;
+            break;            
+    }
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    switch (section) {
+        case 0:
+            return 0;
+            break;
+            
+        default:
+            return self.sectionInsets.top;
+            break;
+    }
 }
 
 #pragma Mark - KVO
@@ -185,7 +315,7 @@ static NSString * const kBlogItemCellId = @"BlogItemCell";
             
             self.alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:UIAlertControllerStyleAlert];
             
-            UIAlertAction *action = [UIAlertAction actionWithTitle:okTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *act) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:okTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                     //..
             }];
             [self.alert addAction:action];

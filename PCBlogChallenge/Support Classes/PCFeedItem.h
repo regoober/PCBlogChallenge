@@ -16,7 +16,7 @@
 // Description (HTML-encoded in CDATA) of the blog article.
 @property (nonatomic) NSAttributedString *itemDescription;
 // Image of the blog article.
-@property (nonatomic, strong) NSURL *imageURL;
+@property (nonatomic, strong) NSString *imageURL;
 // Date and time at which the blog article published.
 @property (nonatomic, strong) NSDate *pubDate;
 // URL Link to the full blog article.
