@@ -12,7 +12,7 @@
 @interface PCParseOperation () <NSXMLParserDelegate>
 
 @property (nonatomic) PCFeedItem *currentFeedItemObject;
-@property (nonatomic) NSMutableArray *currentParseBatch;
+@property (nonatomic) NSMutableArray *parsedFeedItemsArray;
 @property (nonatomic) NSMutableAttributedString *currentParsedCharacterData;
 
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
@@ -69,7 +69,7 @@
         // Match the date format of the RSS feed (RFC 233): eg. Thu, 29 Mar 2018 15:32:46 +0000
         self.dateFormatter.dateFormat = @"EEE, dd MMM yyyy HH:mm:ss Z";
         
-        _currentParseBatch = [[NSMutableArray alloc] init];
+        _parsedFeedItemsArray = [[NSMutableArray alloc] init];
         _currentParsedCharacterData = [[NSMutableAttributedString alloc] init];
         
         _elementStack = [[NSMutableArray alloc] init];
@@ -98,17 +98,12 @@
     /*
      Depending on the total number of blog items parsed, the last batch might not have been a "full" batch, and thus not been part of the regular batch transfer. So, check the count of the array and, if necessary, send it to the main thread.
      */
-    if (self.currentParseBatch.count > 0) {
-        [self performSelectorOnMainThread:@selector(addBlogItemsToList:) withObject:self.currentParseBatch waitUntilDone:NO];
+    if (self.parsedFeedItemsArray.count > 0) {
+        [self performSelectorOnMainThread:@selector(addBlogItemsToList:) withObject:self.parsedFeedItemsArray waitUntilDone:NO];
     }
 }
 
 #pragma mark - Parser constants
-
-/*
- When an PCFeedItem object has been fully constructed, it must be passed to the main thread and the table view in PCBlogViewController must be reloaded to display it. Doing this for every PCFeedItem object one by one will create massive overhead in communicating between threads and reloading the main view which will lead to an unperformant application. Thus, passing feed items in batches, of which its size is designated by the following constant.
- */
-static NSUInteger const kSizeOfBlogBatch = 10;
 
 // Reduce potential parsing errors by using string constants declared in a single place.
 static NSString * const kChannelElementName = @"channel";
@@ -168,14 +163,9 @@ static NSString * const kLinkElementName = @"link";
     if ([elementName isEqualToString:kEntryElementName]) {
         
         // end feed item entry, add to the array
-        [self.currentParseBatch addObject:self.currentFeedItemObject];
+        [self.parsedFeedItemsArray addObject:self.currentFeedItemObject];
+        // reset item flag
         _seekItem = NO;
-        
-        if (self.currentParseBatch.count >= kSizeOfBlogBatch) {
-            [self performSelectorOnMainThread:@selector(addBlogItemsToList:) withObject:self.currentParseBatch waitUntilDone:YES];
-            
-            [self.currentParseBatch removeAllObjects];
-        }
     }
     else if ([elementName isEqualToString:kTitleElementName]) {
         self.currentFeedItemObject.title = self.currentParsedCharacterData;

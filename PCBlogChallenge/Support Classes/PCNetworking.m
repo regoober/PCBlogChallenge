@@ -30,6 +30,9 @@ static dispatch_once_t token = 0;
 // queue that manages our NSOperation for parsing blog data
 @property (nonatomic, strong) NSOperationQueue *parseQueue;
 
+// image cache to prevent excessive reloads
+@property (nonatomic, strong) NSCache *imageCache;
+
 @end
 
 @implementation PCNetworking
@@ -64,6 +67,8 @@ static dispatch_once_t token = 0;
         }];
     
         _parseQueue = [NSOperationQueue new];
+        
+        _imageCache = [[NSCache alloc] init];
     }
     
     return self;
@@ -84,6 +89,11 @@ static dispatch_once_t token = 0;
 // Fetches the blog RSS feed.
 -(void) fetchRssFeed
 {
+    // Clear blog entries before reloading them again.
+    [self willChangeValueForKey:@"blogItems"];
+    [self.blogEntries removeAllObjects];
+    [self didChangeValueForKey:@"blogItems"];
+    
     NSURL *url = [NSURL URLWithString:kBlogURL];
     NSURLSessionDataTask *downloadFeedTask = [[NSURLSession sharedSession] dataTaskWithURL:url
                                               completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -140,18 +150,29 @@ static dispatch_once_t token = 0;
 }
 
 // Fetches the image at the urlString provided, as given by a blog item's media:content element.
--(void) fetchImageUrl:(NSString *)urlString completionHandler:(void (^)(UIImage *, NSError *))completionBlock
+-(void) fetchImageUrl:(NSString *)urlString completionHandler:(void (^)(UIImage *, NSURL *, NSError *))completionBlock
 {
+    // Check if image is in _imageCache and load from there instead
+    UIImage *cachedImg = ((UIImage *)[_imageCache objectForKey:urlString]);
+    if (cachedImg != nil) {
+        completionBlock(cachedImg, [NSURL URLWithString:urlString], nil);
+        return;
+    }
+    
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLSessionDataTask *downloadImageTask = [[NSURLSession sharedSession] dataTaskWithURL:url
                                                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                                         // fire completionBlock according to error or valid image data response
                                                                         if (error != nil) {
-                                                                            completionBlock(nil, error);
+                                                                            completionBlock(nil, response.URL, error);
                                                                         }
                                                                         else {
                                                                             UIImage *img = [UIImage imageWithData:data];
-                                                                            completionBlock(img, nil);
+                                                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                    // Add image to cache
+                                                                                [self.imageCache setObject:img forKey:urlString];
+                                                                                completionBlock(img, response.URL, nil);
+                                                                            });
                                                                         }
     }];
     // Start downloading image for article

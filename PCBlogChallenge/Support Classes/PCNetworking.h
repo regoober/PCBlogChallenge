@@ -18,7 +18,7 @@
 
 // Fetches the blog RSS feed.
 -(void) fetchRssFeed;
--(void) fetchImageUrl:(NSString *)urlString completionHandler:(void (^)(UIImage *, NSError *))completionBlock;
+-(void) fetchImageUrl:(NSString *)urlString completionHandler:(void (^)(UIImage *, NSURL *, NSError *))completionBlock;
 
 @end
 

@@ -54,7 +54,7 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
-    // Register header to collection view
+    // Register headers to collection view
     [_collectionView registerClass:[PCCollectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kTopBlogItemHeaderId];
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kPrevArticlesHeaderId];
     // Register reusable cell to collection view
@@ -95,12 +95,7 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
     _feedLoadIndicator.hidesWhenStopped = YES;
     _feedLoadIndicator.color = [UIColor blackColor];
     [_collectionView addSubview:_feedLoadIndicator];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     // Start by calling refresh to load the feed
     [self refresh];
 }
@@ -119,18 +114,13 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
     }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma Mark - UICollectionViewDelegate
-
 -(void)handleHeaderSelect:(UITapGestureRecognizer *)sender
 {
     NSIndexPath *headerIndexPath = [NSIndexPath indexPathForItem:0 inSection:0];
     [self collectionView:_collectionView didSelectItemAtIndexPath:headerIndexPath];
 }
+
+#pragma mark - UICollectionViewDelegate
 
 // Event to fire when a collection view item is tapped
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(nonnull NSIndexPath *)indexPath
@@ -148,9 +138,7 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
     PCFeedItem *feedItem = [PCNetworking sharedNetworking].blogEntries[index];
     NSURLComponents *mobileURL = [[NSURLComponents alloc] initWithURL:feedItem.link resolvingAgainstBaseURL:NO];
     mobileURL.query = @"displayMobileNavigation=0"; // append mobile navigation queryString
-//    PCBlogWebViewController *blogWebViewController = [PCBlogWebViewController new];
-//    blogWebViewController.linkURL = [mobileURL URL];
-//    [self.navigationController pushViewController:blogWebViewController animated:true];
+    // Load mobile URL in a SFSafariViewController
     SFSafariViewController *webVC = [[SFSafariViewController alloc] initWithURL:[mobileURL URL] entersReaderIfAvailable:NO];
     [self presentViewController:webVC animated:YES completion:nil];
 }
@@ -170,17 +158,12 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
                 // Check to see if blogEntries has even been loaded.
                 if ([PCNetworking sharedNetworking].blogEntries.count > 0) {
                     PCFeedItem *item = [PCNetworking sharedNetworking].blogEntries[indexPath.item];
-                    [[PCNetworking sharedNetworking] fetchImageUrl:item.imageURL completionHandler:^(UIImage *img, NSError *err) {
-                        // Once image has been loaded, display it in header in the main event queue.
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            headerView.itemImage.image = img;
-                            [headerView.itemImage setNeedsDisplay];
-                        });
-                    }];
+                    // Load image in header asynchronously.
+                    [headerView loadImage:item.imageURL];
+                    // Attach header title, make slightly bolder.
                     NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithAttributedString:item.title];
                     [title addAttribute:NSStrokeWidthAttributeName value:@(-2.0) range:NSMakeRange(0, item.title.length)];
                     headerView.itemTitleLabel.attributedText = title;
-                    
                     // Prepend the published date in long format before the description, separated by an em-dash
                     NSDateFormatter *normalDate = [[NSDateFormatter alloc] init];
                     [normalDate setDateFormat:@"MMMM d, yyyy"];
@@ -198,6 +181,7 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
                 break;
             default:
                 secondHeaderView = [self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kPrevArticlesHeaderId forIndexPath:indexPath];
+                // Setup second header here with label "Previous Articles" since there's no custom subclass for it.
                 PCLabel *secondHeaderLabel = [[PCLabel alloc] initWithFrame:CGRectMake(0, 0, secondHeaderView.bounds.size.width, secondHeaderView.bounds.size.height)];
                 secondHeaderLabel.textInsets = UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0);
                 secondHeaderLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
@@ -217,16 +201,13 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
 {
     PCCollectionViewCell *cell = (PCCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kBlogItemCellId forIndexPath:indexPath];
     
-        // Grab the appropriate blog feed item from blogEntries
+    // Grab the appropriate blog feed item from blogEntries
     PCFeedItem *item = [PCNetworking sharedNetworking].blogEntries[indexPath.item+1]; // off by one, since first entry goes to header
     
-        // Fetch the image for item, and populate the itemImage once it's complete, otherwise put an image of X
-    [[PCNetworking sharedNetworking] fetchImageUrl:item.imageURL completionHandler:^(UIImage *img, NSError *err) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            cell.itemImage.image = img;
-            [cell.itemImage setNeedsDisplay];
-        });
-    }];
+    // Clear the image, fetch the image for item, and populate the itemImage once it's complete
+    cell.itemImage.image = nil;
+    [cell.imageLoadActivity startAnimating];
+    [cell loadImage:item.imageURL];
     cell.itemTitleLabel.attributedText = item.title;
     
     return cell;
@@ -250,7 +231,7 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
     }
 }
 
-# pragma Mark - UICollectionViewDelegateFlowLayout
+# pragma mark - UICollectionViewDelegateFlowLayout
 
 // Set default size of the header (width: full screen, height: 350)
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
@@ -315,7 +296,7 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
     }
 }
 
-#pragma Mark - KVO
+#pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     PCNetworking *networkingDS = object;

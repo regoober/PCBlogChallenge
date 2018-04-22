@@ -13,10 +13,14 @@
 
 @property (nonatomic, strong) UIImageView *itemImage;
 
+@property (nonatomic, strong) UIActivityIndicatorView *headerImageActivity;
+
 @property (nonatomic, strong) PCLabel *itemTitleLabel;
 
 @property (nonatomic, strong) PCLabel *itemDescription;
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+
+- (void)loadImage:(NSString *)imageUrlStr;
 
 @end

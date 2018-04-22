@@ -7,6 +7,7 @@
 //
 
 #import "PCCollectionHeaderView.h"
+#import "PCNetworking.h"
 
 @implementation PCCollectionHeaderView
 
@@ -21,6 +22,10 @@
         // Set blog item image to take up top 70% of cell
         _itemImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.bounds.size.width, self.bounds.size.height * 0.7)];
         _itemImage.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        // Set up activity indicator in center of blog item image
+        _headerImageActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _headerImageActivity.hidesWhenStopped = YES;
+        _headerImageActivity.center = CGPointMake(_itemImage.frame.size.width / 2, _itemImage.frame.size.height / 2);
         // Set blog item title to take up next 15% of cell immediately below
         _itemTitleLabel = [[PCLabel alloc] initWithFrame:CGRectMake(0.0, self.bounds.size.height * 0.7, self.bounds.size.width, self.bounds.size.height * 0.15)];
         _itemTitleLabel.textInsets = UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0);
@@ -36,6 +41,7 @@
         _itemDescription.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
         _itemDescription.adjustsFontForContentSizeCategory = YES;
         [self addSubview:_itemImage];
+        [self addSubview:_headerImageActivity];
         [self addSubview:_itemTitleLabel];
         [self addSubview:_itemDescription];
         
@@ -47,6 +53,20 @@
     }
     
     return self;
+}
+
+- (void)loadImage:(NSString *)imageUrlStr
+{
+    _itemImage.image = nil;
+    [_headerImageActivity startAnimating];
+    [[PCNetworking sharedNetworking] fetchImageUrl:imageUrlStr completionHandler:^(UIImage *img, NSURL *url, NSError *err) {
+        // Once image has been loaded, display it in header
+        //if (imageUrlStr == url.absoluteString) {
+        self.itemImage.image = img;
+        [self.itemImage setNeedsDisplay];
+        [self.headerImageActivity stopAnimating];
+        //}
+    }];
 }
 
 @end
