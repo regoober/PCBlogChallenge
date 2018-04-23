@@ -39,19 +39,33 @@
         [self.contentView addSubview:_imageLoadActivity];
         [self.contentView addSubview:_itemTitleLabel];
         
-//        [NSLayoutConstraint activateConstraints:@[[_itemImage.leftAnchor constraintEqualToAnchor:self.contentView.leftAnchor],
-//                                                  [_itemImage.topAnchor constraintEqualToAnchor:self.contentView.topAnchor],
-//                                                  [_itemImage.rightAnchor constraintEqualToAnchor:self.contentView.rightAnchor],
-//                                                  [_itemTitleLabel.topAnchor constraintEqualToAnchor:_itemImage.bottomAnchor],
-//                                                  [_itemTitleLabel.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor]
-//                                                  ]];
+        [NSLayoutConstraint activateConstraints:@[[self.contentView.leftAnchor constraintEqualToAnchor:_itemImage.leftAnchor],
+                                                  [self.contentView.topAnchor constraintEqualToAnchor:_itemImage.topAnchor],
+                                                  [self.contentView.rightAnchor constraintEqualToAnchor:_itemImage.rightAnchor],
+                                                  //[_itemTitleLabel.topAnchor constraintEqualToAnchor:_itemImage.bottomAnchor],
+                                                  [self.contentView.bottomAnchor constraintEqualToAnchor:_itemTitleLabel.bottomAnchor],
+                                                  [self.contentView.leftAnchor constraintEqualToAnchor:_itemTitleLabel.leftAnchor],
+                                                  [self.contentView.rightAnchor constraintEqualToAnchor:_itemTitleLabel.rightAnchor]
+                                                  ]];
     }
     
     return self;
 }
 
+//- (void)layoutIfNeeded {
+//    [super layoutIfNeeded];
+//    self.contentView.layer.cornerRadius = self.contentView.bounds.size.width / 2;
+//}
+
+- (void)setDataSource:(PCFeedItem *)item
+{
+    [self loadImage:item.imageURL];
+    _itemTitleLabel.attributedText = item.title;
+}
+
 - (void)loadImage:(NSString *)imageUrlStr
 {
+    // Clear the image, fetch the image for item, and populate the itemImage once it's complete
     _itemImage.image = nil;
     [_imageLoadActivity startAnimating];
     [[PCNetworking sharedNetworking] fetchImageUrl:imageUrlStr completionHandler:^(UIImage *img, NSURL *url, NSError *err) {

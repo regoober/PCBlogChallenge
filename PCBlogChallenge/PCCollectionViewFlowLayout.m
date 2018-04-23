@@ -12,7 +12,12 @@
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
-    return YES;
+    CGRect oldBounds = self.collectionView.bounds;
+    // check if bounds width actually changed to avoid excessive invalidations
+    if (CGRectGetWidth(newBounds) != CGRectGetWidth(oldBounds)) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

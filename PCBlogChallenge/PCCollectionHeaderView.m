@@ -45,14 +45,37 @@
         [self addSubview:_itemTitleLabel];
         [self addSubview:_itemDescription];
         
-//        [_itemImage.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
-//        [_itemImage.widthAnchor constraintEqualToAnchor:self.widthAnchor].active = YES;
-//        [_itemTitleLabel.topAnchor constraintEqualToAnchor:_itemImage.bottomAnchor].active = YES;
-//        [_itemDescription.topAnchor constraintEqualToAnchor:_itemTitleLabel.bottomAnchor].active = YES;
-//        [_itemDescription.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
+        [NSLayoutConstraint activateConstraints:@[[self.leftAnchor constraintEqualToAnchor:_itemImage.leftAnchor],
+                                                  [self.topAnchor constraintEqualToAnchor:_itemImage.topAnchor],
+                                                  [self.rightAnchor constraintEqualToAnchor:_itemImage.rightAnchor],
+                                                  [self.bottomAnchor constraintEqualToAnchor:_itemDescription.bottomAnchor],
+                                                  [self.leftAnchor constraintEqualToAnchor:_itemTitleLabel.leftAnchor],
+                                                  [self.rightAnchor constraintEqualToAnchor:_itemTitleLabel.rightAnchor],
+                                                  [self.leftAnchor constraintEqualToAnchor:_itemTitleLabel.leftAnchor],
+                                                  [self.rightAnchor constraintEqualToAnchor:_itemTitleLabel.rightAnchor],
+                                                  [_itemImage.bottomAnchor constraintEqualToAnchor:_itemTitleLabel.topAnchor],
+                                                  [_itemTitleLabel.bottomAnchor constraintEqualToAnchor:_itemDescription.topAnchor],
+                                                  ]];
     }
     
     return self;
+}
+
+- (void)setDataSource:(PCFeedItem *)item
+{
+    // Load the image asynchronously.
+    [self loadImage:item.imageURL];
+    // Attach header title, make slightly bolder.
+    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithAttributedString:item.title];
+    [title addAttribute:NSStrokeWidthAttributeName value:@(-2.0) range:NSMakeRange(0, item.title.length)];
+    self.itemTitleLabel.attributedText = title;
+    // Prepend the published date in long format before the description, separated by an em-dash
+    NSDateFormatter *normalDate = [[NSDateFormatter alloc] init];
+    [normalDate setDateFormat:@"MMMM d, yyyy"];
+    NSMutableAttributedString *datedDescAttStr = [[NSMutableAttributedString alloc] initWithString:[normalDate stringFromDate:item.pubDate]];
+    [datedDescAttStr appendAttributedString:[[NSAttributedString alloc] initWithString:@" — "]];
+    [datedDescAttStr appendAttributedString:item.itemDescription];
+    self.itemDescription.attributedText = datedDescAttStr;
 }
 
 - (void)loadImage:(NSString *)imageUrlStr

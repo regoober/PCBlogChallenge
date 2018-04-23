@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PCLabel.h"
+#import "PCFeedItem.h"
 
 @interface PCCollectionHeaderView : UICollectionReusableView
 
@@ -20,6 +21,8 @@
 @property (nonatomic, strong) PCLabel *itemDescription;
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+
+- (void)setDataSource:(PCFeedItem *)item;
 
 - (void)loadImage:(NSString *)imageUrlStr;
 

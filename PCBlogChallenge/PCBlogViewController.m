@@ -96,6 +96,11 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
     _feedLoadIndicator.color = [UIColor blackColor];
     [_collectionView addSubview:_feedLoadIndicator];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self.collectionView
+                                             selector:@selector(reloadData)
+                                                 name:UIContentSizeCategoryDidChangeNotification
+                                               object:nil];
+    
     // Start by calling refresh to load the feed
     [self refresh];
 }
@@ -158,19 +163,8 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
                 // Check to see if blogEntries has even been loaded.
                 if ([PCNetworking sharedNetworking].blogEntries.count > 0) {
                     PCFeedItem *item = [PCNetworking sharedNetworking].blogEntries[indexPath.item];
-                    // Load image in header asynchronously.
-                    [headerView loadImage:item.imageURL];
-                    // Attach header title, make slightly bolder.
-                    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithAttributedString:item.title];
-                    [title addAttribute:NSStrokeWidthAttributeName value:@(-2.0) range:NSMakeRange(0, item.title.length)];
-                    headerView.itemTitleLabel.attributedText = title;
-                    // Prepend the published date in long format before the description, separated by an em-dash
-                    NSDateFormatter *normalDate = [[NSDateFormatter alloc] init];
-                    [normalDate setDateFormat:@"MMMM d, yyyy"];
-                    NSMutableAttributedString *datedDescAttStr = [[NSMutableAttributedString alloc] initWithString:[normalDate stringFromDate:item.pubDate]];
-                    [datedDescAttStr appendAttributedString:[[NSAttributedString alloc] initWithString:@" — "]];
-                    [datedDescAttStr appendAttributedString:item.itemDescription];
-                    headerView.itemDescription.attributedText = datedDescAttStr;
+                    // Bind data source to header.
+                    [headerView setDataSource:item];
                     
                     // Add touch event if header is tapped.
                     UITapGestureRecognizer *headerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleHeaderSelect:)];
@@ -201,14 +195,13 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
 {
     PCCollectionViewCell *cell = (PCCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kBlogItemCellId forIndexPath:indexPath];
     
+    [cell setNeedsLayout];
+    [cell layoutIfNeeded];
+    
     // Grab the appropriate blog feed item from blogEntries
     PCFeedItem *item = [PCNetworking sharedNetworking].blogEntries[indexPath.item+1]; // off by one, since first entry goes to header
-    
-    // Clear the image, fetch the image for item, and populate the itemImage once it's complete
-    cell.itemImage.image = nil;
-    [cell.imageLoadActivity startAnimating];
-    [cell loadImage:item.imageURL];
-    cell.itemTitleLabel.attributedText = item.title;
+    // Bind data source to cell and its appropraite properties will be set by cell class.
+    [cell setDataSource:item];
     
     return cell;
 }
@@ -294,6 +287,23 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
             return self.sectionInsets.top;
             break;
     }
+}
+
+
+
+-(void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
+    [super traitCollectionDidChange:previousTraitCollection];
+    
+    if (previousTraitCollection == nil ||
+    (self.traitCollection.verticalSizeClass == previousTraitCollection.verticalSizeClass &&
+    self.traitCollection.horizontalSizeClass == previousTraitCollection.horizontalSizeClass))
+    {
+        return;
+    }
+    
+    //[self.collectionView.collectionViewLayout invalidateLayout];
+    //[self.collectionView reloadData];
 }
 
 #pragma mark - KVO
