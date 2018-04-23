@@ -39,14 +39,11 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
     // Initialize sectionInsets
     self.sectionInsets = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
     // Initialize numberPerRow (dependent on device)
-    switch ([UIDevice currentDevice].userInterfaceIdiom) {
-        case UIUserInterfaceIdiomPhone:
-            self.numberPerRow = 2;
-            break;
-        default:
-            self.numberPerRow = 3;
-            break;
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact ||
+        self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassCompact) {
+        self.numberPerRow = 2;
     }
+    else self.numberPerRow = 3;
     
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Initialize the UICollectionView.
@@ -226,12 +223,12 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
 
 # pragma mark - UICollectionViewDelegateFlowLayout
 
-// Set default size of the header (width: full screen, height: 350)
+// Set default size of the headers.
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
     switch (section) {
         case 0:
-            return CGSizeMake(self.view.frame.size.width, self.view.frame.size.width / 1.35);
+            return CGSizeMake(self.view.frame.size.width, self.view.frame.size.width / 2);
             break;
             
         default:
@@ -252,8 +249,18 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
     CGFloat availableWidth = self.view.frame.size.width - paddingSpace;
     // Calculate width per item based on available width
     CGFloat widthPerItem = availableWidth / self.numberPerRow;
-    
-    return CGSizeMake(widthPerItem, widthPerItem / 1.5);
+    // Change aspect ratio of cell for portrait mode for iPhone SE/5/5s
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact &&
+        self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular) {
+        return CGSizeMake(widthPerItem, widthPerItem / 1.25);
+    }
+    // Change aspect ratio of cell for portrait mode for iPad
+    else if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular &&
+             self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular) {
+        return CGSizeMake(widthPerItem, widthPerItem / 2);
+    }
+    else
+        return CGSizeMake(widthPerItem, widthPerItem / 1.5);
 }
 
 // Set insets for the collection view section.
@@ -289,21 +296,11 @@ static NSString * const kPrevArticlesHeaderId = @"PrevArticlesHeader";
     }
 }
 
-
-
--(void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
-    [super traitCollectionDidChange:previousTraitCollection];
-    
-    if (previousTraitCollection == nil ||
-    (self.traitCollection.verticalSizeClass == previousTraitCollection.verticalSizeClass &&
-    self.traitCollection.horizontalSizeClass == previousTraitCollection.horizontalSizeClass))
-    {
-        return;
-    }
-    
-    //[self.collectionView.collectionViewLayout invalidateLayout];
-    //[self.collectionView reloadData];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    // Need to invalidate layout since iPad rotation doesn't change the Size Class of Normal/Normal.
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 #pragma mark - KVO
